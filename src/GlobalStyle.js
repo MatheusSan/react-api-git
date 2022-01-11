@@ -6,6 +6,7 @@ const GlobalStyles = createGlobalStyle`
         margin: 0;
         text-decoration: none;
         font-family: 'Mark Pro', sans-serif;
+        box-sizing: border-box;
     }
 `;
 

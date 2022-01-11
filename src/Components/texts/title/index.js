@@ -1,5 +1,5 @@
 import TitleStyle from "./style";
 
-export default function Page({ children }) {
+export default function Title({ children }) {
   return <TitleStyle>{children}</TitleStyle>;
 }

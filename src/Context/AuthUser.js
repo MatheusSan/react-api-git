@@ -11,19 +11,19 @@ function AuthProvider({ children }) {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  async function handleLogin(email, senha, time) {
-    localStorage.setItem(
-      "user",
-      JSON.stringify({ email: email, senha: senha, time: time })
-    );
-    setUser({ email: email, senha: senha });
-    setAuthenticated(true);
-  }
+  // async function handleLogin(email, senha, time) {
+  //   localStorage.setItem(
+  //     "user",
+  //     JSON.stringify({ email: email, senha: senha, time: time })
+  //   );
+  //   setUser({ email: email, senha: senha });
+  //   setAuthenticated(true);
+  // }
 
-  async function removeLocalStorage() {
-    localStorage.removeItem("user");
-    return true;
-  }
+  // async function removeLocalStorage() {
+  //   localStorage.removeItem("user");
+  //   return true;
+  // }
 
   useEffect(() => {
     if (localStorage.getItem("user") !== null) {
@@ -33,6 +33,10 @@ function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
+  // useEffect(() => {
+  //   console.log(JSON.stringify(state));
+  // }, [state]);
+
   if (loading) {
     return <div />;
   }
@@ -41,10 +45,8 @@ function AuthProvider({ children }) {
     <Context.Provider
       value={{
         authenticated,
-        handleLogin,
         loading,
         user,
-        removeLocalStorage,
         state,
         dispatch,
       }}

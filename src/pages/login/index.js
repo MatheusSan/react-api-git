@@ -1,9 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { FaGithub, FaSpinner } from "react-icons/fa";
 
 import { Context } from "../../Context/AuthUser";
 import Title from "../../Components/texts/title";
+import Warning from "../../Components/texts/warning";
 import Page from "../../Components/page";
+import Container from "../../Components/container";
+import ContainerRotate from "../../Components/containerRotate";
+import Button from "../../Components/button";
 
 export default function Login() {
   const { state, dispatch } = useContext(Context);
@@ -14,8 +19,11 @@ export default function Login() {
   useEffect(() => {
     const url = window.location.href;
     const hasCode = url.includes("?code=");
+    console.log(url);
 
+    console.log(state.proxy_url);
     if (hasCode) {
+      console.log("Entrei"); //FIXME: Não tpa passando por esse console
       const newUrl = url.split("?code=");
       window.history.pushState({}, null, newUrl[0]);
       setData({ ...data, isLoading: true });
@@ -52,26 +60,29 @@ export default function Login() {
   return (
     <Page>
       <Title>GitHub viewer</Title>
-      {/* TODO: componentizar todo o login */}
-      <div className="login-container">
+      <Container>
         {data.isLoading ? (
-          <div className="loader-container">
-            <div className="loader"></div>
-          </div>
+          <ContainerRotate>
+            <FaSpinner />
+          </ContainerRotate>
         ) : (
           <>
             <a
-              className="login-link"
               href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
-              onClick={() => {
-                setData({ ...data, errorMessage: "" });
-              }}
             >
-              <span>Login with GitHub</span>
+              <Button
+                onClick={() => {
+                  setData({ ...data, errorMessage: "" });
+                }}
+              >
+                <FaGithub style={{ marginRight: 5 }} />
+                Login with GitHub
+              </Button>
             </a>
+            <Warning>{data.errorMessage}</Warning>
           </>
         )}
-      </div>
+      </Container>
     </Page>
   );
 }
