@@ -1,6 +1,4 @@
-import React, { createContext, useEffect, useReducer, useState } from "react";
-
-import { initialState, reducer } from "../store/reducer";
+import React, { createContext, useEffect, useState } from "react";
 
 const Context = createContext();
 
@@ -9,46 +7,41 @@ function AuthProvider({ children }) {
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  // async function handleLogin(email, senha, time) {
-  //   localStorage.setItem(
-  //     "user",
-  //     JSON.stringify({ email: email, senha: senha, time: time })
-  //   );
-  //   setUser({ email: email, senha: senha });
-  //   setAuthenticated(true);
-  // }
-
-  // async function removeLocalStorage() {
-  //   localStorage.removeItem("user");
-  //   return true;
-  // }
-
   useEffect(() => {
-    if (localStorage.getItem("user") !== null) {
-      setUser(localStorage.getItem("user"));
-      setAuthenticated(true);
-    }
-    setLoading(false);
+    const getUser = () => {
+      fetch("http://localhost:5000/auth/login/success", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+      })
+        .then((response) => {
+          if (response.status === 200) return response.json();
+          throw new Error("authentication has been failed!");
+        })
+        .then((resObject) => {
+          setUser(resObject.user);
+          setAuthenticated(true);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    };
+    getUser();
   }, []);
-
-  // useEffect(() => {
-  //   console.log(JSON.stringify(state));
-  // }, [state]);
-
-  if (loading) {
-    return <div />;
-  }
 
   return (
     <Context.Provider
       value={{
         authenticated,
-        loading,
+        setAuthenticated,
         user,
-        state,
-        dispatch,
+        loading,
       }}
     >
       {children}

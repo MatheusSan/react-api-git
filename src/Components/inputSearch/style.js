@@ -4,12 +4,17 @@ import colors from "../../assets/colors";
 
 export const InputDiv = styled.div`
   display: flex;
-  max-width: 300px;
+  max-width: 350px;
   width: 90%;
   margin: 10px auto;
   justify-content: space-around;
   border: solid 2px ${colors.primary};
   border-radius: 50px;
+  @media (min-width: 768px) {
+    width: 50%;
+    margin: 30px 0px;
+    float: left;
+  }
 `;
 
 export const ButtonSearch = styled.button`
@@ -27,7 +32,8 @@ export const ButtonSearch = styled.button`
 export const InputSearch = styled.input`
   display: flex;
   height: 40px;
-  width: calc(100% - 40px);
+  /* width: calc(100% - 40px); */
+  width: 100%;
   background-color: ${colors.white};
   border-radius: 50px;
   border: none;

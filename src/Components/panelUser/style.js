@@ -2,48 +2,43 @@ import styled from "styled-components";
 
 import colors from "../../assets/colors";
 
-export const RepoItem = styled.div`
+export const PanelUser = styled.div`
   display: flex;
   width: 95%;
   min-height: 100px;
   overflow: hidden;
-  margin: 10px auto;
-  background-color: ${colors.white};
-  color: ${colors.primary};
+  background-color: ${colors.primary};
+  color: ${colors.white};
   align-items: center;
   justify-content: space-around;
   padding: 5px;
   border-radius: 5px;
   flex-direction: column;
-  @media (min-width: 768px) {
-    width: 48%;
-  }
-  @media (min-width: 2560px) {
-    width: 32%;
-  }
 `;
 
 export const Name = styled.p`
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 16px;
   width: 100%;
   text-align: center;
 `;
 
-export const DescriptionDiv = styled.div`
+export const BioDiv = styled.div`
   width: 100%;
   word-wrap: normal;
   margin-top: 5px;
 `;
 
-export const Description = styled.p`
+export const Bio = styled.p`
   font-size: 14px;
   width: 100%;
   text-align: justify;
 `;
 
-export const Language = styled.p`
-  font-size: 10px;
-  width: 100%;
-  text-align: end;
+export const Avatar = styled.img`
+  display: flex;
+  width: 70px;
+  left: 0px;
+  align-items: center;
+  justify-content: center;
+  padding-right: 5px;
 `;

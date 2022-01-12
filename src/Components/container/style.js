@@ -15,4 +15,11 @@ export const Container = styled.div`
   @media (max-width: 375px) {
     flex-direction: column;
   }
+  @media (min-width: 768px) {
+    width: 45%;
+    float: left;
+    margin: 0;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
 `;

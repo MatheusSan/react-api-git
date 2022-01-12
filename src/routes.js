@@ -6,12 +6,11 @@ import Login from "./pages/login";
 import Logged from "./pages/logged";
 
 function RequireAuth({ children }) {
-  const { user } = useContext(Context);
+  const { authenticated, loading } = useContext(Context);
 
-  // if (user) {
-  //   //FIXME: Corrigir esse Navigate, isLoggedIn nunca fica true
-  //   return <Navigate to="/" />;
-  // }
+  if (!authenticated && !loading) {
+    return <Navigate to="/" />;
+  }
   return children;
 }
 
