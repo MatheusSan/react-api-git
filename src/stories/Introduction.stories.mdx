@@ -1,0 +1,82 @@
+import { Meta } from "@storybook/addon-docs";
+import Code from "./assets/code-brackets.svg";
+import Colors from "./assets/colors.svg";
+import Comments from "./assets/comments.svg";
+import Direction from "./assets/direction.svg";
+import Flow from "./assets/flow.svg";
+import Plugin from "./assets/plugin.svg";
+import Repo from "./assets/repo.svg";
+import StackAlt from "./assets/stackalt.svg";
+
+<Meta title="Example/Introduction" />
+
+<style>{`
+  .subheading {
+    --mediumdark: '#999999';
+    font-weight: 900;
+    font-size: 13px;
+    color: #999;
+    letter-spacing: 6px;
+    line-height: 24px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    margin-top: 40px;
+  }
+
+  .link-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 10px;
+  }
+
+  @media (min-width: 620px) {
+    .link-list {
+      row-gap: 20px;
+      column-gap: 20px;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media all and (-ms-high-contrast:none) {
+  .link-list {
+      display: -ms-grid;
+      -ms-grid-columns: 1fr 1fr;
+      -ms-grid-rows: 1fr 1fr;
+    }
+  }
+
+  
+`}</style>
+
+# Welcome to react-api-git
+
+React-api-git is a project with the objective of searching GitHub user profiles and repositories.
+To be able to use the search features, you need to **authenticate** with the login from [**GitHub**](https://github.com/) itself
+
+View their code in the `src/stories` directory to learn how they work.
+
+<div className="subheading">Start</div>
+
+To start the project it is necessary to clone the repository
+[**react-api-git**](https://github.com/MatheusSan/react-api-git).
+
+After cloning, run the `yarn install` command to install the project's
+dependencies. Don't forget to install the backend dependencies `cd backend && yarn install`.
+
+With the dependencies installed, run the project backend (required for
+authentication) `cd backend && yarn start` and then start the project `cd .. && yarn start`.
+
+<div className="subheading">Use</div>
+
+With an authenticated GitHub user, there will be a screen displaying your data (photo,
+name, nickname and bio). Right below you will have a search field where you can type
+the GitHub username you want to search for.
+
+With the field filled...
+
+If you want to search by user only, press enter or click on the magnifying glass.
+
+If you want to search for the repositories click on the button with the word 'repos'.
+
+If you want to search for this user's favorite repositories click on the button with the word 'starred'.
