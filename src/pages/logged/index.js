@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 
 import Page from "../../Components/page";
 import Title from "../../Components/texts/title";
+import Text from "../../Components/texts/text";
 import Container from "../../Components/container";
 import ContainerList from "../../Components/ContainerList";
 import RepoItem from "../../Components/RepoItem";
@@ -18,37 +19,91 @@ import { Texts } from "../../Components/cabecalho/style";
 
 export default function Login() {
   const [result, setResult] = useState([]);
-  const [resultUser, setResultUser] = useState([]);
-  const [firstSearch, setFirstSearch] = useState(false);
+  const [resultUser, setResultUser] = useState(null);
+  const [haveSearch, setHaveSearch] = useState(false);
   const [txtInput, setTxtInput] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { user, setAuthenticated } = useContext(Context);
 
   async function search(type, url) {
-    setFirstSearch(true);
-    setResult([]);
+    setHaveSearch(true);
+
+    const localUser = JSON.parse(localStorage.getItem(url));
+    if (localUser !== null) {
+      setResultUser(localUser.hasOwnProperty(user) ? localUser.user : null);
+      setResult(localUser.hasOwnProperty(type) ? localUser[type] : []);
+      setLoading(false);
+    }
+
     setLoading(true);
+    setResult([]);
+    setResultUser(null);
     api
-      .get(`/${url}/${type}`)
-      .then((response) => {
-        api
-          .get(`/${url}`)
-          .then((resUser) => {
-            setResultUser(resUser.data);
-            setResult(response.data);
-            setLoading(false);
-          })
-          .catch((errUser) => {
-            console.log("Ops! Ocorreu um erro: " + errUser);
-            setLoading(false);
-          });
+      .get(`/${url}`)
+      .then((resUser) => {
+        setResultUser(resUser.data);
+        if (!type) {
+          if (localUser === null) {
+            localStorage.setItem(url, JSON.stringify({ user: resUser.data }));
+          } else {
+            updateLocal(localUser, resUser.data, null, null);
+          }
+        } else {
+          api
+            .get(`/${url}/${type}`)
+            .then((response) => {
+              setResult(response.data);
+              if (localUser === null) {
+                localStorage.setItem(
+                  url,
+                  JSON.stringify({ user: resUser.data, [type]: response.data })
+                );
+              } else {
+                updateLocal(localUser, resUser.data, response.data, type, url);
+              }
+            })
+            .catch((err) => {
+              console.log("Repo - Ops! Ocorreu um erro: " + err);
+            });
+        }
       })
-      .catch((err) => {
-        console.log("Ops! Ocorreu um erro: " + err);
+      .catch((errUser) => {
+        console.log("User - Ops! Ocorreu um erro: " + errUser);
+      })
+      .finally(() => {
         setLoading(false);
-        setResult([]);
       });
+  }
+
+  function updateLocal(local, user, resType, type, url) {
+    let change = false;
+    console.log("verifica");
+    if (JSON.stringify(local.user) !== JSON.stringify(user)) {
+      change = true;
+      local.user = user;
+      console.log("mudei user");
+    }
+    if (local.hasOwnProperty(type)) {
+      if (JSON.stringify(local[type]) !== JSON.stringify(resType)) {
+        change = true;
+        local[type] = resType;
+        console.log("mudei type");
+      } else {
+        return;
+      }
+    } else {
+      if (type !== null) {
+        change = true;
+        console.log("setei type");
+        local[type] = resType;
+      }
+    }
+    if (change) {
+      console.log("Mudei");
+      localStorage.removeItem(url);
+      localStorage.setItem(url, JSON.stringify(local));
+    }
   }
 
   const logout = () => {
@@ -63,32 +118,40 @@ export default function Login() {
           <FaSignOutAlt
             style={{ position: "absolute", right: 5, top: 5, fontSize: 30 }}
             onClick={logout}
+            title="logout"
           />
           <Cabecalho
             avatar={user.photos[0].value}
             name={user.displayName}
-            email={user.username}
+            nickname={user.username}
             bio={user._json.bio}
           />
           <InputSearch
             placeHolder="User GitHub..."
             onChange={(e) => setTxtInput(e.target.value)}
+            onClick={() => search(false, txtInput)}
+            onKeyUp={(e) => {
+              e.key === "Enter" && search(false, txtInput);
+            }}
           />
           <Container>
-            <Button onClick={() => search("repos", txtInput)}>repos</Button>
-            <Button onClick={() => search("starred", txtInput)}>starred</Button>
+            <Button onClick={() => search("repos", txtInput)} text="repos" />
+            <Button
+              onClick={() => search("starred", txtInput)}
+              text="starred"
+            />
           </Container>
           {loading ? (
             <ContainerList>
               <Loading />
             </ContainerList>
-          ) : !loading && result.length !== 0 ? (
+          ) : !loading && resultUser ? (
             <ContainerList>
-              {console.log(resultUser)}
               <PanelUser
                 name={resultUser.name}
                 avatar={resultUser.avatar_url}
                 bio={resultUser.bio}
+                url={resultUser.html_url}
               />
               {result.map((item, index) => {
                 return (
@@ -102,7 +165,11 @@ export default function Login() {
               })}
             </ContainerList>
           ) : (
-            firstSearch && <Texts>No results found</Texts>
+            haveSearch && (
+              <Texts>
+                <Text>No results found</Text>
+              </Texts>
+            )
           )}
         </>
       ) : (

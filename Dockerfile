@@ -1,9 +1,9 @@
-FROM node:alpine AS development
-ENV NODE_ENV development
+FROM node
+# ENV NODE_ENV development
 WORKDIR /app
 COPY package.json .
-COPY yarn.lock .
-RUN yarn install
+# COPY yarn.lock .
+RUN npm install
 COPY . .
 EXPOSE 3000
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
