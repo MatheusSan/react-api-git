@@ -8,6 +8,7 @@ const TitleStyle = styled.h1`
   font-weight: bold;
   text-decoration: none;
   text-align: center;
+  margin-bottom: 15px;
 `;
 
 export default TitleStyle;

@@ -12,7 +12,7 @@ export const Button = styled.button`
   padding: 20px 10px;
   border: none;
   border-radius: 8px;
-  margin: 5px;
+  margin: 5px auto;
   color: ${colors.white};
   font-size: 16px;
 `;

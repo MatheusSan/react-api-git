@@ -18,7 +18,7 @@ export const Container = styled.div`
   @media (min-width: 768px) {
     width: 45%;
     float: left;
-    margin: 0;
+    margin: 0 auto;
     flex-direction: row;
     justify-content: space-evenly;
   }

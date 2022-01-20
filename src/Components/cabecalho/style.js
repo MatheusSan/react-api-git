@@ -5,7 +5,7 @@ import colors from "../../assets/colors";
 export const CabecalhoStyle = styled.div`
   display: flex;
   width: 90%;
-  max-height: 120px;
+  max-height: 140px;
   margin: 0px auto;
   align-items: flex-start;
   justify-content: space-around;
@@ -37,6 +37,7 @@ export const Texts = styled.div`
   width: 80%;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: space-between;
   word-break: break-all;
 `;
 
@@ -47,7 +48,7 @@ export const Name = styled.p`
   }
 `;
 
-export const Email = styled.p`
+export const Nickname = styled.p`
   font-size: 15px;
   @media (min-width: 1440px) {
     margin-top: 10px;

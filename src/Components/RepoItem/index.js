@@ -5,6 +5,7 @@ import {
   Language,
   RepoItem as RepoItemStyle,
 } from "./style";
+import PropTypes from "prop-types";
 
 export default function Container({ title, description, language }) {
   return (
@@ -17,3 +18,15 @@ export default function Container({ title, description, language }) {
     </RepoItemStyle>
   );
 }
+
+Container.defaultProps = {
+  title: "",
+  description: "",
+  language: "",
+};
+
+Container.propTypes = {
+  title: PropTypes.string,
+  description: PropTypes.string,
+  language: PropTypes.string,
+};

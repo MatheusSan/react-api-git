@@ -16,10 +16,13 @@ export const PanelUser = styled.div`
   flex-direction: column;
 `;
 
-export const Name = styled.p`
+export const Name = styled.a`
+  display: flex;
   font-size: 16px;
   width: 100%;
   text-align: center;
+  justify-content: center;
+  color: ${colors.white};
 `;
 
 export const BioDiv = styled.div`
